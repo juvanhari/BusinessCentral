@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace BC.Api.Features.Catalog.CreateProduct
 {
@@ -17,7 +18,7 @@ namespace BC.Api.Features.Catalog.CreateProduct
             RuleFor(x => x.ProductDto.Price).GreaterThan(0).WithMessage("Price must be greater than 0");
         }
     }
-    public class CreateProductHandler(IHttpClientFactory clientFactory) : 
+    public class CreateProductHandler(IHttpClientFactory clientFactory, IMSDToken msdCentralToken) : 
         ICommandHandler<CreateProductCommand, CreateProductResult>
     {
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
@@ -32,7 +33,11 @@ namespace BC.Api.Features.Catalog.CreateProduct
                 Price = command.ProductDto.Price,
             };
 
+            var token = await msdCentralToken.GetAuthToken();
+
             var httpClient = clientFactory.CreateClient("MSD365BC");
+            // Add the Authorization header with the bearer token
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var httpResponseMessage = await httpClient.GetAsync(
                 $"discounts/{product.Id}");
 

@@ -17,6 +17,7 @@
 
                 return Results.Ok(response.Discount);
             })
+            .RequireAuthorization()
             .WithName("GetDiscountByProductId")
             .Produces<GetDiscountByProductIdResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)

@@ -1,5 +1,9 @@
 ﻿global using Mapster;
 global using MediatR;
 global using Carter;
+global using Microsoft.Identity.Web;
+global using FluentValidation;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using BuildingBlocks.Behaviours;
 global using BC.Domain.Models.Catalog;
 global using BuildingBlocks.CQRS;
