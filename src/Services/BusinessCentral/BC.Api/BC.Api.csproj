@@ -13,14 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Catalog\DeleteProduct\" />
-    <Folder Include="Features\Catalog\GetProduct\" />
-    <Folder Include="Features\Catalog\GetProducts\" />
-    <Folder Include="Features\Catalog\UpdateProduct\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Carter" Version="8.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Identity.Web" Version="3.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
   </ItemGroup>

@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-
-namespace BC.Api.Features.Catalog.CreateProduct
+﻿namespace BC.Api.Features.Catalog.Command.CreateProduct
 {
-    public record CreateProductRequest(ProductDto ProductDto);
+    public record CreateProductRequest(ProductCommandDto Product);
+    public record CreateProductResponse(ProductQueryDto Product);
 
-    public record CreateProductResponse(Guid Id);
-
-    [Authorize]
     public class CreateProductEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
@@ -19,13 +15,11 @@ namespace BC.Api.Features.Catalog.CreateProduct
 
                 var response = result.Adapt<CreateProductResponse>();
 
-                return Results.Created($"/products/{response.Id}", response);
+                return Results.Created($"/products/{response.Product.Id}", response);
             })
-            .RequireAuthorization()
             .WithName("CreateProduct")
             .Produces<CreateProductResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status404NotFound)
             .WithSummary("Create Product")
             .WithDescription("Create Product");
         }

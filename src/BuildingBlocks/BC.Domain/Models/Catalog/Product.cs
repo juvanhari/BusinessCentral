@@ -1,21 +1,35 @@
-﻿namespace BC.Domain.Models.Catalog
-{
-    public class Product
-    {
-        public Product()
-        {
-            this.Id = Guid.NewGuid();
-        }
-        public Guid Id { get; set; }
+﻿using BC.Domain.Models.Base;
 
-        public string Name { get; set; } = default!;
+namespace BC.Domain.Models.Catalog
+{
+    public class Product : Entity<Guid>
+    {
+
+        public string ItemNo { get; set; } = default!;
 
         public string Description { get; set; } = default!;
 
-        public List<string> Category { get; set; } = new();
+        public string Category { get; set; } = default!;
 
-        public string ImageFile { get; set; } = default!;
+        public decimal UnitPrice { get; set; } = default!;
 
-        public decimal Price { get; set; }
+        public static Product Create(string company, string itemNo, string description, string category,  decimal unitPrice)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(company);
+            ArgumentOutOfRangeException.ThrowIfNullOrWhiteSpace(itemNo);
+
+            var product = new Product
+            {
+                Id = Guid.NewGuid(),
+                Company = company,
+                ItemNo = itemNo,
+                Description = description,
+                Category = category,
+                UnitPrice = unitPrice
+            };
+
+            return product;
+        }
+
     }
 }
