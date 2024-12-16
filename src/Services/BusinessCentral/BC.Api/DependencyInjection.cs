@@ -1,4 +1,6 @@
-﻿using BuildingBlocks.Exceptions.Handlers;
+﻿using BC.Api.Swagger;
+using BC.Domain.Service;
+using BuildingBlocks.Exceptions.Handlers;
 
 namespace BC.Api
 {
@@ -24,6 +26,7 @@ namespace BC.Api
         public static IServiceCollection AddApplicationServices
             (this IServiceCollection services, IConfiguration configuration, Assembly assembly)
         {
+            services.AddScoped<BusinessCentralHeader>();
             services.AddMediatR(options =>
             {
                 options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
@@ -58,14 +61,13 @@ namespace BC.Api
             // Registering Http Clients
             services.AddHttpClient("MSD365BC", httpClient =>
             {
-                httpClient.BaseAddress = new Uri(configuration["MSD365Api"]!);
+                httpClient.BaseAddress = new Uri($"{configuration["MSD365Api"]!}/{configuration["MSD365Settings:TenantId"]}/sandbox/ODataV4/");
 
                 httpClient.DefaultRequestHeaders.Add(
                     HeaderNames.Accept, "application/json");
                 httpClient.DefaultRequestHeaders.Add(
                     HeaderNames.UserAgent, "BC.Api");
             });
-
 
             return services;
         }
@@ -75,6 +77,7 @@ namespace BC.Api
         {
             services.AddSwaggerGen(options =>
             {
+                //options.OperationFilter<SwaggerHeaderParameter>();
                 options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
                 {
                     Name = "Authorization",

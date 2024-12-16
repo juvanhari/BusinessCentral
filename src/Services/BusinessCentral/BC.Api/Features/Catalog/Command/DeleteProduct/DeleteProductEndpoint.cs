@@ -14,6 +14,7 @@
 
                 return Results.Ok(response);
             })
+             .RequireAuthorization() // Enforce Authorization
             .WithName("DeleteProduct")
             .Produces<DeleteProductResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)

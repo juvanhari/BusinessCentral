@@ -15,6 +15,7 @@
 
                 return Results.Created($"/products/{response.Product.Id}", response);
             })
+             .RequireAuthorization() // Enforce Authorization
             .WithName("UpdateProduct")
             .Produces<UpdateProductResponse>(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status400BadRequest)

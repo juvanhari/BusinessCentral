@@ -1,5 +1,6 @@
 using BC.Api;
 using BC.Api.Extensions;
+using BC.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,7 @@ if (app.Environment.IsDevelopment())
     await app.IntialiseDatabaseAsync();
 }
 
-
+app.UseBCHeaderMiddleWare();
 app.UseAuthentication();
 app.UseAuthorization();
 

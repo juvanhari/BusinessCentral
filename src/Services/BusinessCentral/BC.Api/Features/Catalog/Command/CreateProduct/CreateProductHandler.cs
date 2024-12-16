@@ -1,4 +1,6 @@
-﻿namespace BC.Api.Features.Catalog.Command.CreateProduct
+﻿using BC.Domain.Service;
+
+namespace BC.Api.Features.Catalog.Command.CreateProduct
 {
     public record CreateProductCommand(ProductCommandDto Product)
        : ICommand<CreateProductResult>;
@@ -16,10 +18,12 @@
         }
     }
 
-    public class CreateProductHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateProductCommand, CreateProductResult>
+    public class CreateProductHandler(IApplicationDbContext dbContext, BusinessCentralHeader header) : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
+            var value = header.Value;
+
             var product = new Product()
             {
                 Company = command.Product.Company,
